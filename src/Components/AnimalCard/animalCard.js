@@ -17,7 +17,7 @@ export default function AnimalCard() {
     
     const [account, setAccount] = useState("");
     let [Opacity , setOpacity]=useState(false);
-    let [ imgId , setImgId] = useState(null)
+    let [ imgId , setImgId] = useState();
     const [show, setShow] = useState(false);
     let [UserScore, setUserScore] =useState(0);
     let [GameScore, setGameScore]=useState(0);
@@ -26,6 +26,7 @@ export default function AnimalCard() {
     let [forceAiCard, setforceAiCard]= useState(false);
     let [ownSpecialFood, setOwnSpecialFood] =useState(false);
     let [notSpecialCount,setNotSpecialCount]=useState(0);
+    let [notSpecialForAi,setNotSpecialForAi]=useState(0);
     let [winstts,setWinStts]=useState("");
   
     let {gcard, ucard}= useParams();
@@ -44,28 +45,16 @@ const get = async () => {
             console.log("Y0u Clicked id froaodasdasd", id)
             // chooseCardFor_AI();
         }
-
-        const handleCloseAi =async (id) => 
-        {
-            console.log("id",id)
-            setImgId(id);
-            chooseCardFor_AI1();
-            setforceAiCard(!forceAiCard);
-            console.log("You Clicked id", id)
-            // setImgId(id);
-            // chooseCardFor_AI1();
-            console.log("run ")
-        }
         
-        const handleCloseSpc = (id) => 
-        {
-            setImgId(id);
-            ChooseCard();
-            setOwnSpecialFood(!ownSpecialFood)
-            console.log("You Clicked id", id)
-            // chooseCardFor_AI1();
-            console.log("run handleCloseSpc ",id)
-        }
+        // const handleCloseSpc = async (id) => 
+        // {
+        //     setImgId(imgId);
+        //    await ChooseCard();
+        //     setOwnSpecialFood(!ownSpecialFood)
+        //     console.log("You Clicked id", id)
+        //     // chooseCardFor_AI1();
+        //     console.log("run handleCloseSpc ",id)
+        // }
 const useForceAi = async() => {
     setAccount(await loadWeb3());
     const web3 = window.web3;
@@ -88,7 +77,8 @@ const UseSpecial =async()=>
     let Userinfo = await contract.methods.User(account).call();
     // let specialcrd = true;
     let specialcrd= Userinfo.special;
-    if (specialcrd==true){
+    let ntsp =Userinfo.notspecial;
+    if (specialcrd==true || ntsp==3){
         setOwnSpecialFood(true);
     }else{
         toast.error("Sorry You dont Have any Special card")
@@ -100,18 +90,14 @@ const UseSpecial =async()=>
 
         const web3 = window.web3;
         let contract = new web3.eth.Contract(abi, contractAddress);
-        let winstatus =await contract.methods.userAmount(account).call();
+        // let winstatus =await contract.methods.userAmount(account).call();
         let Userinfo =await contract.methods.User(account).call();
         let forceAiCad= Userinfo.force_AI_card;
         let Sts =Userinfo.status;
         let spc=Userinfo.special;
         let winmsg=Userinfo.winingStatus;
         let ntspc =Userinfo.notspecial;
-        let usram= winstatus.userfoodAmount;
-        let aian=winstatus.gamefoodAmount;
         setWinStts(winmsg);
-        
-
         setOpacity(true);
         try{
             if(forceAiCad==0)
@@ -135,6 +121,7 @@ const UseSpecial =async()=>
                                             let mac_fCard= userInf.random_food_card;
                                             let force_ai_card= userInf.force_AI_card; 
                                             let notSpecial= userInf.notspecial;  
+                                            let notAiSpecaial= userInf.notspecial_for_AI; 
                                             let Specialfcard =userInf.special;   
                                             let winmsg= userInf.winingStatus ;
                                             let Usermount =await contract.methods.userAmount(account).call();
@@ -147,6 +134,7 @@ const UseSpecial =async()=>
                                             setgamefCard(mac_fCard);
                                             setuserFcard(usr_fCard);
                                             setNotSpecialCount(notSpecial);
+                                            setNotSpecialForAi(notAiSpecaial);
                                             setOwnSpecialFood(Specialfcard);
                                             console.log(forceAiCard);
                                         if (force_ai_card==1)
@@ -185,7 +173,7 @@ const UseSpecial =async()=>
             }
     }
 
-    const chooseCardFor_AI1 =async ()=>{
+    const chooseCardFor_AI1 =async (id)=>{
         
         const web3 = window.web3;
         let contract = new web3.eth.Contract(abi, contractAddress);
@@ -197,11 +185,12 @@ const UseSpecial =async()=>
                             console.log("Called Choose Card for AI")
                             const web3 = window.web3;
                             let contract= new web3.eth.Contract(abi,contractAddress);
-                            console.log('This is the id in force ai card',imgId)
-                            await contract.methods.chooseCardFor_AI(imgId).send({
+                            console.log('This is the id in force ai card',id)
+                            await contract.methods.chooseCardFor_AI(id).send({
                                 from :account
                             })
                             toast.success("Transaction Successfull")
+                            setforceAiCard(false);
                         }
                         catch{
                             console.log("error comes here")
@@ -213,15 +202,15 @@ const UseSpecial =async()=>
                 toast.error("Sorry You dont have any force ai card")
             }
     }
-    const ChooseCard =async()=>{
+    const ChooseCard =async(id)=>{
         const web3 = window.web3;
         let contract = new web3.eth.Contract(abi, contractAddress);
         let Userinfo =await contract.methods.User(account).call();
-        let spcl= Userinfo. special; 
+        let spcl= Userinfo.special; 
         let ntspc =Userinfo.notspecial;
         if (ntspc==3 || spcl){
-            console.log(" Here Special Cardd u clicked id",imgId)
-            await contract.methods.chooseCard(imgId).send({
+            console.log(" Here Special Cardd u clicked id",id)
+            await contract.methods.chooseCard(IDBCursor).send({
                 from :account
             })
             toast.success("Transaction Successfull")
@@ -263,7 +252,7 @@ const chekscore=async()=>{
     const web3 = window.web3;
         let contract = new web3.eth.Contract(abi, contractAddress);
         let winlob = await contract.methods.User(acc).call();
-        let whoWon =winlob.winingStatus;
+        // let whoWon =winlob.winingStatus;
         let Userinfo =await contract.methods.userAmount(acc).call();
         let uscr=Userinfo.userfoodAmount;
         let bool1= winlob.special;
@@ -272,11 +261,32 @@ const chekscore=async()=>{
         setOwnSpecialFood(bool1);
         setGameScore(ascr);
         setUserScore(uscr);
-        if(whoWon=="you win"){
-            toast.success("Huraah! You Won the bet ")
-        }else if (whoWon=="you loss"){
-            toast.success("Huraah! You Won the bet ")
+        if(uscr<500 && ascr >500){
+            toast.success("Hurrah! you Won the bet! Perform last transaction For Withdrawl")
         }
+        else if(uscr==500 && ascr>500){
+            toast.success("Hurrah! you Won the bet! Perform last transaction For Withdrawl")
+
+        }else if(uscr>500 && ascr<=500){
+            toast.success("Alas! you Lost the bet! Perform last transaction For Withdrawl")
+        }else if (uscr<500 && ascr==500)
+        {
+            toast.success("Alas! you Lost the bet! Perform last transaction For Withdrawl")
+
+        }else if (uscr>500 && ascr>500){
+            if(uscr<ascr){
+            toast.success("Hurrah! you Won the bet! Perform last transaction For Withdrawl")
+
+            }else{
+            toast.success("Alas! you Lost the bet! Perform last transaction For Withdrawl")
+
+            }
+        }
+    //     if(whoWon=="you win"){
+    //         toast.success("Huraah! You Won the bet ")
+    //     }else if (whoWon=="you loss"){
+    //         toast.success("Huraah! You Won the bet ")
+    //     }
 
     }
 }
@@ -312,7 +322,7 @@ const chekscore=async()=>{
                         </div>
                         <div className="col-md-6 col-sm-6 col-6" >
                             <p className="btn-txt1 text-white Score" > Your Score :{UserScore} </p>
-                            <p className="btn-txt1 text-white"> Got Special food of another animal: {notSpecialCount}</p>
+                            <p className="btn-txt1 text-white"> Goit Specal food of another animal: {notSpecialCount}</p>
                             {/* <p className="btn-txt1 text-white"> Own Special Food :</p>  */}
                             <div>
                           
@@ -331,7 +341,7 @@ const chekscore=async()=>{
                                 {/* For Ai Card */}
 
 
-                                <Modal show={forceAiCard} onHide={handleCloseAi} size="lg"
+                                <Modal show={forceAiCard} onHide={chooseCardFor_AI1} size="lg"
                                     aria-labelledby="example-modal-sizes-title-lg">
                                     <Modal.Header closeButton style={{ backgroundColor: "#6cf768" , color:"white"}}>
                                         <Modal.Title>Force Ai Card</Modal.Title>
@@ -345,7 +355,7 @@ const chekscore=async()=>{
 
                                                             <Col>
 
-                                                                <img src={items.imgSrc} alt=" Food Cards" width="120%" height="120%" onClick={()=>handleCloseAi(items.id)} />
+                                                                <img src={items.imgSrc} alt=" Food Cards" width="120%" height="120%" onClick={()=>chooseCardFor_AI1(items.id)} />
                                                             </Col>
 
                                                         )
@@ -357,7 +367,7 @@ const chekscore=async()=>{
                                                     FoodCard.slice(13,19).map((items) => {
                                                         return (
                                                             <Col>
-                                                                <img src={items.imgSrc} alt=" Food Cards" width="110%" height="110%" onClick={()=>handleCloseAi(items.id)} />
+                                                                <img src={items.imgSrc} alt=" Food Cards" width="110%" height="110%" onClick={()=>chooseCardFor_AI1(items.id)} />
                                                             </Col>
                                                         )
                                                     })
@@ -388,7 +398,7 @@ const chekscore=async()=>{
 
                                                       <Col>
 
-                                                          <img src={items.imgSrc} alt=" Food Cards" width="120%" height="120%" onClick={()=>handleCloseSpc(items.id)} />
+                                                          <img src={items.imgSrc} alt=" Food Cards" width="120%" height="120%" onClick={()=>ChooseCard(items.id)} />
                                                       </Col>
 
                                                   )
@@ -400,7 +410,7 @@ const chekscore=async()=>{
                                               FoodCard.slice(13,19).map((items) => {
                                                   return (
                                                       <Col>
-                                                          <img src={items.imgSrc} alt=" Food Cards" width="110%" height="110%" onClick={()=>handleCloseSpc(items.id)} />
+                                                          <img src={items.imgSrc} alt=" Food Cards" width="110%" height="110%" onClick={()=>ChooseCard(items.id)} />
                                                       </Col>
                                                   )
                                               })
@@ -436,7 +446,7 @@ const chekscore=async()=>{
                         </div>
                         <div className="col-md-6 col-sm-6 col-6" >
                             <p className="btn-txt1 text-white Score" > AI Score : {GameScore} </p>
-                            <p className="btn-txt1 text-white"> Got Special food</p>
+                            <p className="btn-txt1 text-white"> Goit Specal food of another animal: {notSpecialForAi}</p>
                             {/* <p className="btn-txt1 text-white">Own Special Food</p> */}
                         </div>
                     </div>
