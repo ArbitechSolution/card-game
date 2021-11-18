@@ -1,0 +1,82 @@
+.App-containor {
+  display:flex;
+  justify-content:center;
+   background-color:#82192c;
+  
+   height:100vh;
+   margin-top: -80px;
+}
+.Containor{
+  display:flex;
+  justify-content:center;
+  border-radius:10px;
+  flex-direction:column;
+}
+.text-Containor{
+  display:flex;
+  justify-content:center;
+  margin-top:5;
+}
+.text-Data{
+  display:flex;
+text-align: center;
+  flex-direction:column;
+}
+.welcome-txt{
+  font-weight:bold;
+  font-size:46px;
+  color:yellow;
+  /* margin-top:-10px; */
+}
+.to-txt{
+  font-weight:bold;
+  font-size:35px;
+  color:white;
+  margin-top:-35px;   
+}
+.main-txt{
+  font-weight:bold;
+  font-size:50px;
+  color:yellow;
+  margin-top:-35px;
+}
+.img-containor1{
+  display:flex;
+  justify-content:center;
+  margin-top:0px;
+}
+.myimg1{
+  width:22vw;
+  height:50vh;
+  margin-bottom: 0px;
+}
+.btn-containor{
+  display:flex;
+  justify-content:center;
+  /* margin-top:-9px; */
+  flex-direction: column;
+  /* margin-left: 2px; */
+}
+.homebtn{
+  /* margin-top:0; */
+  background-color:#6cf768;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  
+ 
+  margin-top:20px;
+  
+}
+.link-txt{
+  color:white;
+  font-weight:bold;
+  font-size:26px;
+  text-decoration:none;
+}
+#cola{
+  background-color:#6cf768;
+  margin:10px 0 0 0;
+  color: white;
+  font-size: 26px;
+}

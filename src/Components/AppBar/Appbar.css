@@ -1,0 +1,26 @@
+
+.appContainor{
+    display: flex;
+    background-color:#82192c;
+    justify-content: flex-end;    
+    align-items: center;
+    width: 100vw;
+}
+.btn-conwal{
+    margin-top:20px;
+    margin-right: 40px;
+    background-color:#6cf768;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    border-radius:10px;
+    width:10rem;
+    height:2.5rem;    
+    cursor:pointer;
+}
+.btn-txt{
+    color:white;
+    font-weight:bold;
+    font-size:20px;
+    text-decoration:none;
+}

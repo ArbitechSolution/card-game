@@ -1,0 +1,12 @@
+.App-Containor {  
+    display:flex;
+    /* align-items:center;  */
+    background-color:#82192c;
+    width:100vw;
+    height:100vh;
+    /* margin: 20px; */
+  }
+  .main-containor{
+    display:flex;
+    margin-left: 50px;
+  }

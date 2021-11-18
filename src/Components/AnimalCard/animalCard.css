@@ -1,0 +1,67 @@
+.btn-txt1{
+    color:black;
+    font-weight:bold;
+    font-size:20px;
+   
+    /* border: 2px solid red; */
+}
+.Score{
+    display: flex;
+ align-self: flex-end;
+ margin-top: 70px;
+ 
+
+}
+.buton{
+    display: flex;
+    align-items:center;
+    margin-top: 100px;
+}
+.nm{
+    display: flex;
+    flex-direction: row;
+   justify-content: flex-end;
+   font-size: 35px;
+   margin-top: 50px;
+   color: #fff;
+}
+.img{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+
+}
+.App-Containor {  
+    /* display:flex; */
+    /* align-items:center;  */
+    /* background-color:#82192c; */
+    /* width:100vw; */
+    /* height:100vh; */
+    /* margin: 20px; */
+  }
+ 
+
+  .btn-class{
+
+    background-color:#6cf768;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    border-radius:10px;
+    width:18rem;
+    height:4rem;
+    cursor:pointer;
+    margin: auto;
+}
+.btn-txt2{
+    color:white;
+    font-weight:bold;
+    font-size:26px;
+    text-decoration:none;
+}
+.btn-containr{
+    display: flex;
+    justify-content: center;
+   
+}
