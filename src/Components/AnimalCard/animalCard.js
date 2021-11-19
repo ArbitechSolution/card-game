@@ -17,6 +17,7 @@ export default function AnimalCard() {
     
     const [account, setAccount] = useState("");
     let [Opacity , setOpacity]=useState(false);
+    let [btnText, setbtnText] = useState("Get Food Card")
     let [ imgId , setImgId] = useState();
     const [show, setShow] = useState(false);
     let [UserScore, setUserScore] =useState(0);
@@ -263,22 +264,30 @@ const chekscore=async()=>{
         setUserScore(uscr);
         if(uscr<500 && ascr >500){
             toast.success("Hurrah! you Won the bet! Perform last transaction For Withdrawl")
+            setbtnText("Withdraw")
+
         }
         else if(uscr==500 && ascr>500){
             toast.success("Hurrah! you Won the bet! Perform last transaction For Withdrawl")
+            setbtnText("Withdraw")
+
 
         }else if(uscr>500 && ascr<=500){
             toast.success("Alas! you Lost the bet! Perform last transaction For Withdrawl")
+            setbtnText("End Game")
         }else if (uscr<500 && ascr==500)
         {
             toast.success("Alas! you Lost the bet! Perform last transaction For Withdrawl")
+            setbtnText("End Game")
 
         }else if (uscr>500 && ascr>500){
             if(uscr<ascr){
             toast.success("Hurrah! you Won the bet! Perform last transaction For Withdrawl")
+            setbtnText("WithDraw")
 
             }else{
             toast.success("Alas! you Lost the bet! Perform last transaction For Withdrawl")
+            setbtnText("End Game")
 
             }
         }

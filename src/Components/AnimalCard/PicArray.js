@@ -11,6 +11,7 @@ import Tiger from '../../Assets/Tiger.jpg'
 import Wagyu from '../../Assets/Wagyu.jpg'
 import Bull from '../../Assets/Bull.jpg'
 import Apple from '../../Assets/common/Apple.jpg';
+import Panda from '../../Assets/Panda.jpg'
 
 import Berry from '../../Assets/common/Berry.jpg';
 import Broccoli from '../../Assets/common/Broccoli.jpg';
@@ -139,6 +140,10 @@ export const FoodCard = [{
         imgSrc: tomato,
     
     },
+     {
+        id:'20',
+        imgSrc: Panda
+    }
     
 ]
     export const Specialanimal = [
